@@ -4,8 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Particles } from "../../components/Particles";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-
-const audio = new Audio("/Blade-Runner-2049.mp3");
+import audio from "../../media/audio.mp3";
 
 const Home = () => {
   const [props, setProps] = React.useState({
@@ -15,34 +14,33 @@ const Home = () => {
     fov: 54,
     curl: 0.5,
   });
+  const audioRef = React.useRef(null);
   const [hasStarted, setHasStarted] = React.useState(false);
 
   const handleOnClick = (type) => {
     // if (type==='noise')
+
+
     if (hasStarted) {
-      audio.stop();
+      setProps({
+        focus: 3.72,
+        speed: 63.4,
+        aperture: 2.6,
+        fov: 54,
+        curl: 0.5,
+      });
+      audioRef.current.pause();
     } else {
-      audio.start();
-    }
-    setProps(() => {
-      if (hasStarted) {
-        return {
-          focus: 3.72,
-          speed: 63.4,
-          aperture: 2.6,
-          fov: 54,
-          curl: 0.5,
-        };
-      }
-      return {
+      setProps({
         focus: 3.27,
         speed: 15.9,
         aperture: 4.2,
         fov: 54,
         curl: 0.1,
-      };
-    });
-    setHasStarted((t) => !t);
+      });
+      audioRef.current.play();
+    }
+    setHasStarted(_flag => !_flag);
   };
   // const props = useControls({
   //   focus: { value: 5.1, min: 3, max: 7, step: 0.01 },
@@ -84,6 +82,9 @@ const Home = () => {
       >
         <Button onClick={handleOnClick}>{hasStarted ? "Stop" : "Start"}</Button>
       </Box>
+      <audio controls autoPlay ref={audioRef} style={{ display: "none" }}>
+        <source src={audio} type="audio/mpeg" />
+      </audio>
     </>
   );
 };
