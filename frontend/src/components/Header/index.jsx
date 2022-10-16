@@ -44,7 +44,7 @@ const Header = () => {
               textDecoration: "none",
             }}
           >
-            CUVIOUS
+            QUVOUS
           </Typography>
 
           {isLoggedIn ? (
